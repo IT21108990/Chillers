@@ -1,4 +1,4 @@
-package com.example.project1;
+package com.pro1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,32 +15,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-public class MainActivity extends AppCompatActivity {
+public class bookroom extends AppCompatActivity {
 
-    private EditText fName, fNumber, fDate, fTime, fGuestCount, fRoom;
+    private EditText fDate, fPeople, fRates;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private String fID;
-    private Button bqReserveBtn;
+    private Button checkRoomBtn;
     private rvModel rvmodel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fName = findViewById(R.id.name);
-        fNumber = findViewById(R.id.number);
-        fDate = findViewById(R.id.editTextDate);
-        fTime = findViewById(R.id.editTextTime);
-        fGuestCount = findViewById(R.id.editTextNumber);
-        fRoom = findViewById(R.id.editRoomNumber);
-        bqReserveBtn = findViewById(R.id.bqReserveBtn);
+        fDate = findViewById(R.id.Date);
+        fPeople = findViewById(R.id.People);
+        fRates = findViewById(R.id.Rates);
+        checkRoomBtn = findViewById(R.id.checkRoomBtn);
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("order");
+        databaseReference = firebaseDatabase.getReference("rooms");
 
         //button
-        bqReserveBtn = findViewById(R.id.bqReserveBtn) ;
-        bqReserveBtn.setOnClickListener(new View.OnClickListener() {
+        checkRoomBtn = findViewById(R.id.checkRoomBtn) ;
+        checkRoomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -49,27 +46,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        bqReserveBtn.setOnClickListener(new View.OnClickListener() {
+        checkRoomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = fName.getText().toString();
-                String number = fNumber.getText().toString();
                 String date = fDate.getText().toString();
-                String time = fTime.getText().toString();
-                String guestCount = fGuestCount.getText().toString();
-                String room = fRoom.getText().toString();
-
+                String people = fPeople.getText().toString();
+                String rates = fRates.getText().toString();
+                
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         databaseReference.child(fID).setValue(rvmodel);
-                        Toast.makeText(MainActivity.this, "Submited", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this, Menus.class));
+                        Toast.makeText(bookroom.this, "Done", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(bookroom.this, Menus.class));
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(MainActivity.this, "Error is " + error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(bookroom.this, "Error is this " + error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
